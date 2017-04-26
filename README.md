@@ -7,10 +7,9 @@ Hopefully we can achieve:
 3. plan the time to develop UI of webapp (Soonho, Monica and Jun)
 4. figure out how to send the data to Lumiverse (Jun and Allison)
 
-~~1. learn how to control the bridge~~
-
-~~2. control the bridge on our own ~~
+~~- learn how to control the bridge~~
+~~- control the bridge on our own ~~
 - determine what color to use for which mood, adjust the coordinate to rgb program (Monica and Leo)
 - link web app with bridge server(Allison and Jun)
-~~5. while playing with the bridge, design better web app interface (Soonho, Monica and Jun)~~
+~~- while playing with the bridge, design better web app interface (Soonho, Monica and Jun)~~
 
