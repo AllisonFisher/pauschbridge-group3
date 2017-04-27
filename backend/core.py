@@ -1,6 +1,7 @@
 #!/usr/bin/python2
 # core.py
 # aoneill - 04/10/17
+# edits by allisonf
 
 import sys
 import random
@@ -69,8 +70,22 @@ def init(upload = True, run = True, wipe = True, fire = True):
 def query(rig, text):
   return rig.select(text)
 
-def seq(rig, num):
-  return query(rig, '$sequence=%d' % num)
+def getSequence(rig, num, side='both'):
+  qs = '$sequence=%d' % num
+  if side == 'top':
+      qs += '[$side=top]'
+  elif side == 'bottom':
+      qs += '[$side=bot]'
+  return query(rig, qs)
+
+def getPanel(rig, num, side='both'):
+  qs = '$panel=%d' % num
+  if side == 'top':
+      qs += '[$side=top]'
+  elif side == 'bottom':
+      qs += '[$side=bottom]'
+  return query(rig, qs)
+
 
 def rand_color():
   func = lambda: random.randint(0, 255) / 255.0
