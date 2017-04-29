@@ -54,10 +54,21 @@ $(function () {
   drawAxis($canvas[0]);
 
   $canvas.on('click', function (event) {
-    console.log(event.target.relMouseCoords(event));
-    paintBlock(event);
+    var data = event.target.relMouseCoords(event);
+    x = data.x;
+    y = data.y;
 
+    console.log(x, y);
+    //paintBlock(event);
+
+    $.ajax({
+      type: "GET",
+      url: "/run",
+      data: {x : x, y : y},
+      success: function(result) {
+        console.log(result);
+      }
+    });
   });
-
 
 });

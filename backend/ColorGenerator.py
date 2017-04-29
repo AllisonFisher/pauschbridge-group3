@@ -1,18 +1,16 @@
 from tkinter import *
 import math
 
+# updated by Jun
+# color scheme still needs discussion
+
 def findAngle(x,y): 
     radian = math.atan2(y,x)
-    print(radian)
     degree = radian * (360/(2*math.pi))
     if (degree < 0): 
         degree = 360 + degree
-    print(degree)
     return degree
 
-def findDistance(x,y):
-    distance = ((x**2)+(y**2))*0.5
-    return distance
 
 def findColor(degree): 
     red = 120 
@@ -28,34 +26,50 @@ def findColor(degree):
     finalValues = []
     for value in values: 
         if (value > 255): 
-            print (value, "is greater than 255")
+            
             value = 0 
+        
         finalValues += [value]
-    print ("these are the values", finalValues)
+
     return finalValues
 
 
 def rgbString(red,green,blue): 
         return "#%02x%02x%02x" % (red,green,blue)
 
-def draw(canvas, width, height,color):
-    print ("we got here")
-    print (color)
-    canvas.create_rectangle(10,10,110,110,fill=color)
 
-def runDrawing(width, height,color):
+def draw(canvas, i, color):
+    size = 100
+    lo = 10 + i*size
+    hi = 10 + (i+1)*size
+    canvas.create_rectangle(lo, lo, hi, hi,fill=color)
+
+def runDrawing(width, height,colors):
     root = Tk()
     canvas = Canvas(root, width=width, height=height)
     canvas.pack()
-    draw(canvas, width, height,color)
+    for i in range(len(colors)):
+        draw(canvas, i, colors[i])
     root.mainloop()
-    print("bye!")
 
-def run(x,y): 
+
+def getRGB(x,y): 
     angle = findAngle(x,y) 
     color = findColor(angle) 
     red = color[0]
     green = color[1]
     blue = color[2] 
     rgb = rgbString(red,green,blue)
-    runDrawing(600, 600,rgb)
+    return rgb
+    
+def run():
+    points = [(1,1), (1,-1), (-1,1), (-1,-1)]
+    colors = []
+    for point in points:
+        (x, y) = point
+        rgb = getRGB(x, y)
+        colors.append(rgb)
+    runDrawing(600, 600,colors)
+
+
+
