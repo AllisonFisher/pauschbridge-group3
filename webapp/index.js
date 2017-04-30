@@ -1,3 +1,5 @@
+
+
 function relMouseCoords (event) {
   var totalOffsetX = 0;
   var totalOffsetY = 0;
@@ -5,7 +7,7 @@ function relMouseCoords (event) {
   var canvasY = 0;
   var currentElement = this;
 
-  var width = $(window).width();
+  var width = $(window).height();
   var height = $(window).height();
   do {
     totalOffsetX += currentElement.offsetLeft - currentElement.scrollLeft;
@@ -17,7 +19,7 @@ function relMouseCoords (event) {
   canvasY = height/2 - (event.pageY - totalOffsetY);
 
 
-  return {x:canvasX, y:canvasY}
+  return {x:canvasX, y:canvasY, rX: event.pageX, rY: event.pageY};
 }
 
 HTMLCanvasElement.prototype.relMouseCoords = relMouseCoords;
@@ -40,16 +42,19 @@ function drawAxis ( canvas ) {
 
 }
 
-function paintBlock( event ) {
-  var x = event.pageX;
-  var y = event.pageY;
+function paintBlock(canvas, x, y, color) {
+
+  var ctx = canvas.getContext("2d");
+  console.log(color);
+  ctx.fillStyle = color;
+  ctx.fillRect(x - 15, y - 15, 10, 10);
 }
 
 
 $(function () {
   var $canvas = $("#mood-ring");
   var $window = $(window);
-  $canvas.attr('width', $window.width()).attr('height', $window.height());
+  $canvas.attr('width', $window.height()).attr('height', $window.height());
  
   drawAxis($canvas[0]);
 
@@ -57,18 +62,21 @@ $(function () {
     var data = event.target.relMouseCoords(event);
     x = data.x;
     y = data.y;
+    rx = data.rX;
+    ry = data.rY;
 
     console.log(x, y);
     //paintBlock(event);
-
-    $.ajax({
-      type: "GET",
-      url: "/run",
-      data: {x : x, y : y},
-      success: function(result) {
-        console.log(result);
-      }
-    });
+    size = $(window).height();
+    diag = (Math.sqrt(2) * size)/2;
+    var color = findColor(x, y, diag);
+    r = color.r;
+    g = color.g;
+    b = color.b;
+    console.log(color);
+    code = "rgb(" + r + "," + g + "," + b + ")";
+    paintBlock($canvas[0], rx, ry, code); 
+    
   });
 
 });
